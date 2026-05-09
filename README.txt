@@ -1,0 +1,1 @@
+SortByPopulationStrategy içinde comparingLong kalmalı. Çünkü City.population tipi long.
