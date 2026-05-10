@@ -43,12 +43,7 @@ public class Main {
 
             // Kişi 2: Weather paneli
             WeatherPanel weatherPanel = new WeatherPanel(cities);
-
-            JPanel mainPanel = new JPanel(new BorderLayout(10, 10));
-            mainPanel.add(cityListPanel, BorderLayout.WEST);
-            mainPanel.add(weatherPanel, BorderLayout.CENTER);
-
-            frame.add(mainPanel, BorderLayout.CENTER);
+            frame.add(weatherPanel);
 
             frame.setVisible(true);
         });
