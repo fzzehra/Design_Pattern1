@@ -9,6 +9,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 import com.smarttravel.gui.WeatherPanel;
+import com.smarttravel.gui.TravelPlanPanel;
 import com.smarttravel.gui.CityListPanel;
 import com.smarttravel.model.City;
 import com.smarttravel.model.WeatherState;
@@ -38,12 +39,21 @@ public class Main {
             frame.setLocationRelativeTo(null);
             frame.setLayout(new BorderLayout(10, 10));
 
-            // Kişi 1: City list + Strategy sorting paneli
+            //  City list + Strategy sorting paneli
             CityListPanel cityListPanel = new CityListPanel(cities);
 
-            // Kişi 2: Weather paneli
+            //  Weather paneli
             WeatherPanel weatherPanel = new WeatherPanel(cities);
-            frame.add(weatherPanel);
+            
+            TravelPlanPanel travelPlanPanel = new TravelPlanPanel();
+            
+
+            JPanel mainPanel = new JPanel(new BorderLayout(10, 10));
+            mainPanel.add(cityListPanel, BorderLayout.WEST);
+            mainPanel.add(weatherPanel, BorderLayout.CENTER);
+            mainPanel.add(travelPlanPanel, BorderLayout.EAST);
+
+            frame.add(mainPanel, BorderLayout.CENTER);
 
             frame.setVisible(true);
         });
