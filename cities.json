@@ -1,0 +1,58 @@
+[
+  {
+    "name": "Ankara",
+    "population": 5700000,
+    "area": 2516.0,
+    "currentTemperature": 22.5,
+    "currentWeatherState": "CLOUDY"
+  },
+  {
+    "name": "Istanbul",
+    "population": 15000000,
+    "area": 5461.0,
+    "currentTemperature": 25.3,
+    "currentWeatherState": "SUNNY"
+  },
+  {
+    "name": "Izmir",
+    "population": 4400000,
+    "area": 2824.0,
+    "currentTemperature": 28.1,
+    "currentWeatherState": "SUNNY"
+  },
+  {
+    "name": "Bursa",
+    "population": 3100000,
+    "area": 1036.0,
+    "currentTemperature": 20.4,
+    "currentWeatherState": "RAINY"
+  },
+  {
+    "name": "Antalya",
+    "population": 2500000,
+    "area": 1417.0,
+    "currentTemperature": 32.0,
+    "currentWeatherState": "SUNNY"
+  },
+  {
+    "name": "Adana",
+    "population": 2200000,
+    "area": 1254.0,
+    "currentTemperature": 35.2,
+    "currentWeatherState": "CLOUDY"
+  },
+  {
+    "name": "Konya",
+    "population": 2200000,
+    "area": 2461.0,
+    "currentTemperature": 18.7,
+    "currentWeatherState": "SNOWY"
+  },
+  {
+    "name": "Gaziantep",
+    "population": 2100000,
+    "area": 863.0,
+    "currentTemperature": 26.4,
+    "currentWeatherState": "RAINY"
+  }
+]

@@ -1,23 +1,30 @@
 package com.smarttravel.observer;
 
+import javax.swing.SwingUtilities;
+
 public class WeatherService implements Runnable {
 
     private WeatherProvider weatherProvider;
     private volatile boolean running = true;
 
-    public WeatherService(WeatherProvider weatherProvider) {
+    private Runnable afterUpdate;
+
+    public WeatherService(WeatherProvider weatherProvider, Runnable afterUpdate) {
         this.weatherProvider = weatherProvider;
+        this.afterUpdate = afterUpdate;
     }
 
     @Override
     public void run() {
         while (running) {
             try {
-                // 3 saniye bekle
                 Thread.sleep(3000);
 
-                // Hava durumunu güncelle (bu otomatik notify eder)
                 weatherProvider.updateWeather();
+
+                if (afterUpdate != null) {
+                    SwingUtilities.invokeLater(afterUpdate);
+                }
 
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
@@ -26,7 +33,6 @@ public class WeatherService implements Runnable {
         }
     }
 
-    // Servisi durdur
     public void stop() {
         running = false;
     }
