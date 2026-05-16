@@ -1,203 +1,176 @@
-Smart Travel Planner Platform
-Overview
+# Smart Travel Planner Platform
 
-Smart Travel Planner Platform is a Java Swing application developed for demonstrating multiple software design patterns within a single integrated system.
+SENG 324 – Software Design Patterns / Term Project  
+Ankara Science University · 2025–2026 Spring
 
-The application allows users to:
+A desktop Java application that lets users explore cities, monitor live weather updates,
+and build hierarchical travel plans. The project demonstrates the meaningful use of
+**seven classical design patterns**.
 
-dynamically sort cities,
-filter cities according to weather conditions,
-monitor live weather updates,
-visualize weather statistics with charts,
-create hierarchical travel plans,
-manage activities using undo/redo operations,
-create city-specific trip plans.
+---
 
-The project integrates several design patterns together in a practical GUI-based travel planning system.
+## 1. Requirements
 
-Implemented Design Patterns
-1. Strategy Pattern
+- **Java 21** (or higher)
+- **Maven 3.6+** (for building from source)
+- A desktop OS that supports Java Swing (Windows / macOS / Linux)
 
-Used for dynamic city sorting operations.
+---
 
-Implemented Strategies
-SortByNameStrategy
-SortByPopulationStrategy
-SortByAreaStrategy
-Purpose
+## 2. How to Run
 
-Allows runtime switching between different sorting algorithms without modifying existing code.
+### Option A — Run the packaged fat JAR (recommended)
 
-2. Iterator Pattern
+```bash
+java -jar SmartTravelPlanner-1.0-SNAPSHOT-jar-with-dependencies.jar
+```
 
-Used for filtering cities according to weather conditions.
+> Make sure the `cities.json` file is located **in the same directory** as the JAR,
+> since the application loads it from the working directory at startup.
 
-Implemented Iterators
-SunnyCityIterator
-RainyCityIterator
-CloudyCityIterator
-SnowyCityIterator
-Features
-Weather filtering ComboBox
-Dynamic filtered city list
-Automatic filtered list refresh
-3. Observer Pattern
+### Option B — Run from source with Maven
 
-Used for live weather updates and automatic GUI synchronization.
+```bash
+mvn clean compile
+mvn exec:java -Dexec.mainClass="com.smarttravel.Main"
+```
 
-Responsibilities
-Dynamic weather updates
-Temperature updates
-GUI synchronization
-Real-time chart refresh
-Charts
-Temperature Bar Chart
-Weather Distribution Pie Chart
-4. Singleton Pattern
+### Option C — Build the fat JAR yourself
 
-Used in:
+```bash
+mvn clean package
+```
 
-CityRepository
-Purpose
+The packaged JAR will be created under the `target/` folder.
 
-Ensures that city data is loaded only once globally from the JSON source.
+---
 
-5. Decorator Pattern
+## 3. Project Structure
 
-Used for dynamically extending city visit activities.
-
-Implemented Decorators
-MuseumVisit
-ShoppingMallVisit
-ParkVisit
-CityCenterVisit
-Purpose
-
-Allows optional travel activities to be added without modifying the original city visit structure.
-
-6. Composite Pattern
-
-Used for hierarchical travel plan management.
-
-Components
-ActivityPlan (Composite)
-Activity (Leaf)
-Features
-Recursive activity structures
-Nested travel plans
-Composite activity groups
-City-specific activity trees
-7. Command Pattern
-
-Used for encapsulating GUI operations.
-
-Implemented Commands
-AddActivityCommand
-RemoveActivityCommand
-MoveUpCommand
-MoveDownCommand
-ClearPlanCommand
-Features
-Undo support
-Redo support
-Reversible GUI operations
-Main GUI Components
-City Management Section
-
-Features:
-
-Scrollable city list
-Runtime sorting selection
-Dynamic weather filtering
-Strategy switching using ComboBox
-Travel Planner Section
-
-Features:
-
-Add composite plan nodes
-Add standard activities
-Add custom activities
-Remove activities
-Move activities up/down
-Clear active city tree
-Undo/Redo operations
-City-specific travel plans
-Weather Visualization Section
-
-Features:
-
-Temperature bar chart
-Weather distribution pie chart
-Real-time chart updates
-Main Classes
-CitySortStrategy
-
-Common strategy interface for sorting algorithms.
-
-CitySorter
-
-Context class responsible for dynamically switching sorting strategies.
-
-CityListPanel
-
-GUI panel responsible for city visualization and sorting operations.
-
-WeatherPanel
-
-Handles weather filtering and observer-based updates.
-
-TravelPlanPanel
-
-Manages travel planning GUI and command-based actions.
-
-ActivityPlan
-
-Composite class representing recursive activity groups.
-
-Activity
-
-Leaf node representing individual travel activities.
-
-Technologies Used
-Java
-Java Swing
-Gson
-JFreeChart
-Object-Oriented Programming
-Design Patterns
-How to Run
-Run from IDE
-
-Execute:
-
-Main.java
-Run Packaged Jar
-java -jar SmartTravelPlanner.jar
-Project Structure
+```
 com.smarttravel
-│
-├── command
-├── composite
-├── decorator
-├── gui
-├── iterator
-├── model
-├── observer
-├── repository
-├── strategy
-└── Main.java
-Input File
+├── Main.java                  -- application entry point
+├── model/
+│   ├── City.java
+│   └── WeatherState.java      -- enum: SUNNY, CLOUDY, RAINY, SNOWY
+├── repository/
+│   └── CityRepository.java    -- Singleton, loads cities.json
+├── strategy/                  -- Strategy Pattern
+│   ├── CitySortStrategy.java
+│   ├── CitySorter.java
+│   ├── SortByNameStrategy.java
+│   ├── SortByPopulationStrategy.java
+│   └── SortByAreaStrategy.java
+├── iterator/                  -- Iterator Pattern
+│   ├── CityIterator.java
+│   ├── WeatherCityIterator.java
+│   ├── SunnyCityIterator.java
+│   ├── CloudyCityIterator.java
+│   ├── RainyCityIterator.java
+│   └── SnowyCityIterator.java
+├── observer/                  -- Observer Pattern
+│   ├── WeatherObserver.java
+│   ├── WeatherProvider.java
+│   └── WeatherService.java
+├── decorator/                 -- Decorator Pattern
+│   ├── CityVisitComponent.java
+│   ├── CityVisitDecorator.java
+│   ├── BasicCityVisit.java
+│   ├── MuseumVisit.java
+│   ├── ShoppingMallVisit.java
+│   ├── ParkVisit.java
+│   └── CityCenterVisit.java
+├── composite/                 -- Composite Pattern
+│   ├── TripComponent.java
+│   ├── Activity.java          -- leaf
+│   └── ActivityPlan.java      -- composite
+├── command/                   -- Command Pattern
+│   ├── Command.java
+│   ├── CommandManager.java
+│   ├── AddActivityCommand.java
+│   ├── RemoveActivityCommand.java
+│   ├── ClearPlanCommand.java
+│   ├── MoveUpCommand.java
+│   └── MoveDownCommand.java
+├── chart/
+│   ├── TemperatureBarChart.java
+│   └── WeatherPieChart.java
+└── gui/
+    ├── CityListPanel.java
+    ├── WeatherPanel.java
+    └── TravelPlanPanel.java
+```
 
-The application loads city data from:
+---
 
-cities.json
-Additional Features
-Dynamic weather updates every 3 seconds
-Independent activity tree for each city
-Recursive composite activity system
-Real-time GUI synchronization
-Undoable user operations
-Dynamic weather charts
-UML Diagram
+## 4. Design Patterns Used
 
-The UML class diagram for the project is included in the submission files.
+| Pattern    | Role                | Key Classes                                                                |
+|------------|---------------------|----------------------------------------------------------------------------|
+| Singleton  | Centralized data    | `CityRepository`                                                           |
+| Strategy   | Interchangeable sort| `CitySortStrategy`, `CitySorter`, `SortByName/Population/AreaStrategy`     |
+| Iterator   | Weather filtering   | `CityIterator`, `WeatherCityIterator`, `Sunny/Cloudy/Rainy/SnowyCityIterator` |
+| Observer   | Live chart updates  | `WeatherObserver`, `WeatherProvider`, `WeatherService`, `TemperatureBarChart`, `WeatherPieChart` |
+| Decorator  | Visit add-ons       | `CityVisitComponent`, `BasicCityVisit`, `CityVisitDecorator`, `Museum/ShoppingMall/Park/CityCenterVisit` |
+| Composite  | Hierarchical plans  | `TripComponent`, `Activity` (leaf), `ActivityPlan` (composite)             |
+| Command    | Undo/redo actions   | `Command`, `CommandManager`, `Add/Remove/Clear/MoveUp/MoveDownCommand`     |
+
+---
+
+## 5. How to Use the GUI
+
+The main window contains three primary panels and two charts:
+
+### Top-left – City List Panel
+- **Sort by** combo box (Name / Population / Area) — applies the selected `CitySortStrategy`.
+- **Filter by Weather** combo box (All / Sunny / Cloudy / Rainy / Snowy) — uses the matching `WeatherCityIterator` to filter cities.
+- Click on a city to make it the *active* city for planning.
+
+### Top-right – Weather Charts
+- **Temperature Bar Chart** — shows the current temperature of every city.
+- **Weather Pie Chart** — shows the distribution of weather states.
+- Both charts update automatically every **3 seconds** via `WeatherService` (Observer pattern).
+
+### Middle – Planner Panel (Decorator)
+- Check the activity boxes (Museum, Shopping Mall, Park, City Center) to wrap the selected city in decorators.
+- The total cost and total required hours appear at the bottom.
+
+### Right – Travel Plan Panel (Composite + Command)
+- **Add Plan Node** — creates a new composite `ActivityPlan` under the active node.
+- **Add Selected Activities** — adds the chosen activities (leaves) under the currently active plan node.
+- **Remove Selected Node** — removes the highlighted node from the tree.
+- **Move Up / Move Down** — re-orders activities.
+- **Clear Active City Tree** — empties the entire plan for the active city.
+- **Undo / Redo** — reverses or replays the most recent action.
+
+> Each city has its own independent activity plan tree. Switching the active city
+> automatically swaps the displayed tree.
+
+---
+
+## 6. Input File: cities.json
+
+The application loads city data from `cities.json` at startup. The expected format:
+
+```json
+[
+  {
+    "name": "Ankara",
+    "population": 5337215,
+    "area": 25670,
+    "currentTemperature": 15.0,
+    "currentWeatherState": "SUNNY"
+  }
+]
+```
+
+Allowed values for `currentWeatherState`: `SUNNY`, `CLOUDY`, `RAINY`, `SNOWY`.
+
+---
+
+## 7. Notes
+
+- The weather update thread runs in the background and stops gracefully when the
+  application window is closed.
+- All user actions go through the `CommandManager`, so virtually every change can be
+  undone with the Undo button.
